@@ -1,0 +1,28 @@
+version: '3.5'
+services:
+  app:
+    image: trafex/alpine-nginx-php7
+    container_name: app
+    volumes:
+      - ./app:/var/www/html
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - DB_HOST=mysql
+      - DB_NAME=game
+      - DB_USER=admin
+      - DB_PASSWORD=secret
+    depends_on:
+      - mysql
+    restart: always
+    ports:
+      - 8080:8080
+  mysql:
+    container_name: mysql
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=game
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=secret
